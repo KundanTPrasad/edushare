@@ -1,26 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --accent:  #f472b6;
+  --accent2: #c084fc;
+  --accent3: #fb923c;
+  --bg:      #0f0a14;
+  --border:  rgba(255,255,255,0.08);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0f0a14;
+  background-image:
+    radial-gradient(ellipse 80% 55% at -5% -5%,  rgba(192,80,140,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 100% 0%,  rgba(251,146,60,0.2)  0%, transparent 50%),
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(139,80,220,0.2)  0%, transparent 60%);
+  background-attachment: scroll;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
+  line-height: 1.6;
 }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(244,114,182,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,114,182,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 80%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 80%, transparent);
+}
+
+body > *:not([data-portal]) { position: relative; z-index: 1; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+p { line-height: 1.7; color: rgba(255,255,255,0.55); }
+a { color: inherit; text-decoration: none; }
+code, kbd, pre { font-family: 'DM Mono', monospace; }
+input, textarea { font-family: 'DM Sans', sans-serif; color: #fff; }
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.25); }
+select { font-family: 'DM Sans', sans-serif; color: #fff; }
+select option { background: #0f0a14; color: #fff; }
+button { font-family: 'DM Sans', sans-serif; cursor: pointer; }
+
+::selection { background: rgba(244,114,182,0.22); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid rgba(244,114,182,0.5);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.09); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(244,114,182,0.3); }
+
+.glass {
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  background: rgba(20,12,28,0.75);
+  border: 1px solid var(--border);
+}
+
+.glow {
+  box-shadow: 0 0 24px rgba(244,114,182,0.18), 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #f472b6, #c084fc, #fb923c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.07) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up { animation: fade-up 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.1s;  }
+.delay-3 { animation-delay: 0.15s; }
+.delay-4 { animation-delay: 0.2s;  }

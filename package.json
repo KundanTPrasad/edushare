@@ -1,5 +1,5 @@
 {
-  "name": "edushare",
+  "name": "bhopal-paperhub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "16.2.9",
+    "@supabase/supabase-js": "^2.108.1",
+    "lucide-react": "^1.17.0",
+    "next": "16.2.6",
+    "pdfjs-dist": "^5.7.284",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-icons": "^5.6.0",
+    "react-zoom-pan-pinch": "^4.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -19,7 +24,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.9",
+    "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
