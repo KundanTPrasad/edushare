@@ -96,13 +96,58 @@ export default function AdminPage() {
 
   /* ───── Papers actions ───── */
   const approvePaper = async (id: string) => {
-    setActionState((s) => ({ ...s, [id]: "approving" }));
-    const { error } = await supabase.from("papers").update({ status: "approved" }).eq("id", id);
-    if (error) showToast("Approve failed", "error");
-    else showToast("Paper approved ✓");
-    setActionState((s) => ({ ...s, [id]: null }));
-    fetchPapers();
-  };
+  setActionState((s) => ({
+    ...s,
+    [id]: "approving",
+  }));
+
+  const { error } = await supabase
+    .from("papers")
+    .update({
+      status: "approved",
+    })
+    .eq("id", id);
+
+  if (error) {
+    showToast("Approve failed", "error");
+
+    setActionState((s) => ({
+      ...s,
+      [id]: null,
+    }));
+
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/process-paper", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        paperId: id,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error("Paper processing failed:", result);
+    }
+  } catch (err) {
+    console.error("Process paper error:", err);
+  }
+
+  showToast("Paper approved ✓");
+
+  setActionState((s) => ({
+    ...s,
+    [id]: null,
+  }));
+
+  fetchPapers();
+};
 
   const rejectPaper = async (id: string) => {
     setActionState((s) => ({ ...s, [id]: "rejecting" }));

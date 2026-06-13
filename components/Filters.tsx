@@ -73,11 +73,11 @@ const EMPTY = { college: "", branch: "", semester: "", subject: "", year: "", re
 
 const FIELDS = [
   { key: "college",      label: "College"       },
+  { key: "resourceType", label: "Resource Type" },
   { key: "branch",       label: "Branch"        },
   { key: "semester",     label: "Semester"      },
   { key: "subject",      label: "Subject"       },
   { key: "year",         label: "Year"          },
-  { key: "resourceType", label: "Resource Type" },
 ] as const;
 
 export default function Filters({ filters, setFilters }: { filters: any; setFilters: any }) {

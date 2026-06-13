@@ -1,5 +1,5 @@
 "use client";
-
+import PredictTopicsButton from "@/components/PredictTopicsButton";
 import Hero from "@/components/Hero";
 import Filters from "@/components/Filters";
 import UploadPopup from "@/components/UploadPopup";
@@ -42,8 +42,9 @@ export default function Home() {
 
   return (
     <>
-      <Hero />
-      <Filters filters={filters} setFilters={setFilters} />
+    <Hero />
+        <Filters filters={filters} setFilters={setFilters} />
+        <PredictTopicsButton filters={filters} />
 
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 16px 80px" }}>
         {SECTIONS.map((section) => {

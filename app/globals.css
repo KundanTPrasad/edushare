@@ -6,8 +6,8 @@
   --accent:  #f472b6;
   --accent2: #c084fc;
   --accent3: #fb923c;
-  --bg:      #0f0a14;
-  --border:  rgba(255,255,255,0.08);
+  --bg:      #0a060f;
+  --border:  rgba(255,255,255,0.07);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,13 +19,14 @@ html {
   overflow-x: hidden;
 }
 
+/* ─── Animated aurora canvas ─── */
 body {
-  background-color: #0f0a14;
+  background-color: #0a060f;
   background-image:
-    radial-gradient(ellipse 80% 55% at -5% -5%,  rgba(192,80,140,0.35) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 50% at 100% 0%,  rgba(251,146,60,0.2)  0%, transparent 50%),
-    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(139,80,220,0.2)  0%, transparent 60%);
-  background-attachment: scroll;
+    radial-gradient(ellipse 90% 70% at -10% -10%, rgba(192,60,130,0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 110%  5%,  rgba(251,146,60,0.28)  0%, transparent 50%),
+    radial-gradient(ellipse 80% 70% at 50% 110%,  rgba(139,60,230,0.32)  0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 80%  50%,  rgba(244,114,182,0.12) 0%, transparent 50%);
   color: #fff;
   font-family: 'DM Sans', sans-serif;
   min-height: 100vh;
@@ -34,21 +35,53 @@ body {
   line-height: 1.6;
 }
 
+/* ─── Orb layer: drifting ambient glows ─── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(244,114,182,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(244,114,182,0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  pointer-events: none;
   z-index: 0;
-  mask-image: linear-gradient(to bottom, transparent, black 10%, black 80%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 80%, transparent);
+  pointer-events: none;
+  background:
+    radial-gradient(circle 480px at 18%  22%, rgba(192,80,200,0.22) 0%, transparent 70%),
+    radial-gradient(circle 360px at 82%  15%, rgba(251,146,60,0.18)  0%, transparent 70%),
+    radial-gradient(circle 560px at 60%  85%, rgba(100,80,240,0.2)   0%, transparent 70%),
+    radial-gradient(circle 320px at 5%   75%, rgba(244,114,182,0.15) 0%, transparent 70%);
+  animation: drift 18s ease-in-out infinite alternate;
+  filter: blur(1px);
+}
+
+/* ─── Noise / grain overlay ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
 }
 
 body > *:not([data-portal]) { position: relative; z-index: 1; }
+
+/* ─── Drifting orb keyframe ─── */
+@keyframes drift {
+  0%   { transform: translate(0,    0)    scale(1); }
+  25%  { transform: translate(24px, -18px) scale(1.04); }
+  50%  { transform: translate(-16px, 28px) scale(0.97); }
+  75%  { transform: translate(32px,  12px) scale(1.03); }
+  100% { transform: translate(-8px, -22px) scale(1.01); }
+}
+
+/* ─── Aurora pulse: deeply layered gradient shift ─── */
+@keyframes aurora {
+  0%   { background-position: 0% 50%;   }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%;   }
+}
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Syne', sans-serif;
@@ -57,66 +90,138 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.1;
 }
 
-p { line-height: 1.7; color: rgba(255,255,255,0.55); }
+p { line-height: 1.7; color: rgba(255,255,255,0.52); }
 a { color: inherit; text-decoration: none; }
 code, kbd, pre { font-family: 'DM Mono', monospace; }
 input, textarea { font-family: 'DM Sans', sans-serif; color: #fff; }
-input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.25); }
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.22); }
 select { font-family: 'DM Sans', sans-serif; color: #fff; }
-select option { background: #0f0a14; color: #fff; }
+select option { background: #0a060f; color: #fff; }
 button { font-family: 'DM Sans', sans-serif; cursor: pointer; }
 
-::selection { background: rgba(244,114,182,0.22); color: #fff; }
+::selection { background: rgba(244,114,182,0.25); color: #fff; }
 
 :focus-visible {
-  outline: 2px solid rgba(244,114,182,0.5);
+  outline: 2px solid rgba(244,114,182,0.55);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.09); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(244,114,182,0.3); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, rgba(244,114,182,0.25), rgba(192,132,252,0.25));
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, rgba(244,114,182,0.55), rgba(192,132,252,0.55));
+}
 
+/* ─── Glass: deep frosted panel ─── */
 .glass {
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  background: rgba(20,12,28,0.75);
+  backdrop-filter: blur(28px) saturate(160%) brightness(0.9);
+  -webkit-backdrop-filter: blur(28px) saturate(160%) brightness(0.9);
+  background: rgba(14, 8, 22, 0.7);
   border: 1px solid var(--border);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
 }
 
+/* ─── Glow: multi-layer chromatic halo ─── */
 .glow {
-  box-shadow: 0 0 24px rgba(244,114,182,0.18), 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow:
+    0 0 0   1px rgba(244,114,182,0.08),
+    0 0  20px    rgba(244,114,182,0.18),
+    0 0  60px    rgba(192,132,252,0.12),
+    0 8px 40px   rgba(0,0,0,0.5);
 }
 
+/* ─── Text gradient: animated aurora sweep ─── */
 .text-gradient {
-  background: linear-gradient(135deg, #f472b6, #c084fc, #fb923c);
+  background: linear-gradient(
+    125deg,
+    #f472b6 0%,
+    #c084fc 30%,
+    #fb923c 60%,
+    #f472b6 90%
+  );
+  background-size: 240% 240%;
+  animation: aurora 6s ease infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+/* ─── Skeleton shimmer ─── */
 .skeleton {
   background: linear-gradient(90deg,
-    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.03) 25%,
     rgba(255,255,255,0.07) 50%,
-    rgba(255,255,255,0.04) 75%
+    rgba(255,255,255,0.03) 75%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+  animation: shimmer 1.6s infinite;
   border-radius: 12px;
 }
 
 @keyframes shimmer { to { background-position: -200% 0; } }
 
+/* ─── Entrance animation ─── */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.fade-up { animation: fade-up 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+.fade-up { animation: fade-up 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 .delay-1 { animation-delay: 0.05s; }
 .delay-2 { animation-delay: 0.1s;  }
 .delay-3 { animation-delay: 0.15s; }
 .delay-4 { animation-delay: 0.2s;  }
+
+/* ─── Bonus: iridescent border shimmer ─── */
+@keyframes border-dance {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+.border-shimmer {
+  position: relative;
+}
+.border-shimmer::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, #f472b6, #c084fc, #fb923c, #f472b6);
+  background-size: 300% 300%;
+  animation: border-dance 4s ease infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ─── Bonus: spotlight hover utility ─── */
+.spotlight {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(244,114,182,0.07),
+    transparent 50%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.spotlight:hover::after { opacity: 1; }
