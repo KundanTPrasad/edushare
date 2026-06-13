@@ -30,44 +30,43 @@ export default function Navbar() {
           0%,100% { box-shadow: 0 0 12px rgba(244,114,182,0.3); }
           50%      { box-shadow: 0 0 28px rgba(244,114,182,0.6); }
         }
+
         .nav-link-pill {
           position: relative;
           display: flex; align-items: center; gap: 7px;
-          padding: 8px 18px; border-radius: 999px;
+          padding: 8px 14px;
           font-weight: 500; font-size: 0.95rem; letter-spacing: 0.02em;
           color: rgba(255,210,230,0.65);
-          transition: color 200ms, background 200ms;
+          transition: color 200ms;
           text-decoration: none;
         }
-        .nav-link-pill:hover { color: #fff; background: rgba(244,114,182,0.08); }
-        .nav-link-pill.active {
-          color: #f472b6;
-          background: rgba(244,114,182,0.12);
-          border: 1px solid rgba(244,114,182,0.22);
-        }
+        .nav-link-pill:hover { color: #fff; }
+        .nav-link-pill.active { color: #f472b6; }
         .nav-link-pill.active::after {
           content: '';
-          position: absolute; bottom: -1px; left: 50%;
+          position: absolute; bottom: -2px; left: 50%;
           transform: translateX(-50%);
-          width: 20px; height: 2px; border-radius: 2px;
-          background: #f472b6; box-shadow: 0 0 8px #f472b6;
+          width: 5px; height: 5px; border-radius: 50%;
+          background: #f472b6; box-shadow: 0 0 6px #f472b6;
         }
+
         .skills-pill {
           position: relative;
           display: flex; align-items: center; gap: 7px;
-          padding: 8px 18px; border-radius: 999px;
+          padding: 8px 14px;
           font-weight: 500; font-size: 0.95rem; letter-spacing: 0.02em;
           color: rgba(255,210,230,0.65);
-          transition: color 200ms, background 200ms;
+          transition: color 200ms;
           text-decoration: none;
-          border: 1px solid rgba(192,132,252,0.18);
-          background: rgba(192,132,252,0.05);
         }
-        .skills-pill:hover { color: #c084fc; background: rgba(192,132,252,0.12); border-color: rgba(192,132,252,0.35); }
-        .skills-pill.active {
-          color: #c084fc;
-          background: rgba(192,132,252,0.14);
-          border: 1px solid rgba(192,132,252,0.35);
+        .skills-pill:hover { color: #c084fc; }
+        .skills-pill.active { color: #c084fc; }
+        .skills-pill.active::after {
+          content: '';
+          position: absolute; bottom: -2px; left: 50%;
+          transform: translateX(-50%);
+          width: 5px; height: 5px; border-radius: 50%;
+          background: #c084fc; box-shadow: 0 0 6px #c084fc;
         }
         .skills-pill .skills-badge {
           font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
@@ -75,15 +74,17 @@ export default function Navbar() {
           border-radius: 4px; padding: 1px 5px; margin-left: 2px;
           text-transform: uppercase;
         }
+
         .about-btn {
           display: flex; align-items: center; gap: 7px;
-          padding: 8px 18px; border-radius: 999px;
+          padding: 8px 14px;
           font-weight: 500; font-size: 0.95rem;
           color: rgba(255,210,230,0.65);
           background: none; border: none; cursor: pointer;
-          transition: color 200ms, background 200ms; letter-spacing: 0.02em;
+          transition: color 200ms; letter-spacing: 0.02em;
         }
-        .about-btn:hover { color: #fff; background: rgba(244,114,182,0.08); }
+        .about-btn:hover { color: #fff; }
+
         .upload-cta {
           display: flex; align-items: center; gap: 7px;
           padding: 9px 22px; border-radius: 999px;
@@ -125,6 +126,7 @@ export default function Navbar() {
           letter-spacing: 0.02em; max-width: 90px;
           overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
+
         .mob-tab {
           display: flex; flex-direction: column; align-items: center;
           justify-content: center; gap: 4px; padding: 6px 0; flex: 1;
@@ -165,11 +167,10 @@ export default function Navbar() {
         .mob-about-btn:hover { color: #f472b6; }
       `}</style>
 
+      {/* NAV — floats over the page, no background block, no border line */}
       <nav style={{
-        position: "sticky", top: 0, zIndex: 40, width: "100%",
-        borderBottom: "1px solid rgba(244,114,182,0.1)",
-        background: "rgba(15,10,20,0.8)",
-        backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)",
+        position: "absolute", top: 0, left: 0, right: 0, zIndex: 40, width: "100%",
+        background: "transparent",
         animation: "navSlideDown 400ms cubic-bezier(0.34,1.2,0.64,1) both",
       }}>
         <div style={{
@@ -233,7 +234,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* MOBILE BOTTOM BAR */}
+      {/* MOBILE BOTTOM BAR — unchanged, kept as floating too */}
       <div className="md:hidden" style={{
         position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50,
         background: "rgba(15,10,20,0.92)",
@@ -247,7 +248,6 @@ export default function Navbar() {
             <div className="mob-tab-icon-wrap"><FaHome size={17} /></div>
             Home
           </Link>
-          {/* Skills tab — opens new tab on mobile too */}
           <Link href="/skills" target="_blank" rel="noopener noreferrer" className={`mob-skills-tab ${isActive("/skills") ? "active" : ""}`}>
             <div className="mob-tab-icon-wrap"><FaTools size={16} /></div>
             Skills
